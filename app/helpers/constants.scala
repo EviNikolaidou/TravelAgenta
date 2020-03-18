@@ -1,6 +1,7 @@
 package helpers
 
 object constants extends Enumeration {
+  val id:Value =Value("id")
   val country:Value = Value("Country")
   val reason:Value = Value("Reason of Travel?")
   val notes:Value = Value("Notes")
@@ -13,5 +14,10 @@ object constants extends Enumeration {
   val emptyString: Value = Value("")
   val login: Value = Value("login")
   val loginMessage: Value = Value("You have successfully logged in")
+  val destinations: Value=Value("destinations")
+  val created: Value = Value("created")
+  val loginDetails: Value = Value("loginDetails")
+
+
 
 }

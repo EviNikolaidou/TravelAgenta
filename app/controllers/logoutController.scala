@@ -4,6 +4,7 @@ import akka.stream.Materializer
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
+import controllers.ApplicationController
 
 import scala.concurrent.Future
 
@@ -12,7 +13,7 @@ class logoutController @Inject()(val messagesApi: MessagesApi, val materializer:
 
   def logout: Action[AnyContent] = Action.async { implicit request =>
     Future{
-      Redirect(routes.Application.index()).withSession()
+      Redirect(routes.ApplicationController.index()).withSession()
     }
   }
 
