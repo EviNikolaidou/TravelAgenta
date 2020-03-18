@@ -2,22 +2,22 @@ package models
 
 import play.api.data.Form
 import play.api.data.Forms._
-import helpers.constants
+//import helpers.constants
 
 
-case class login(username:String, password: String)
+case class loginDetails(username:String, password: String)
 
-object login {
+object loginDetails {
 
   val loginForm - Form(
     mapping (
       constants.userName.toString -> nonEmptyText,
       constants.password.toString -> nonEmptyText
     )
-    (login.apply)(login.unapply)
+    (loginDetails.apply)(loginDetails.unapply)
   )
 
-  def checkCredentials(login: login): Boolean = {
+  def checkCredentials(login: loginDetails): Boolean = {
     if (login.username == Constants.admin.toString && login.password == Constants.password.toString)
       true
     else
@@ -26,9 +26,9 @@ object login {
 
   def checkUser(login: String): String = {
     if (login == Constants.admin.toString)
-      Constants.admin.toString
+      constants.admin.toString
     else
-      Constants.emptyString.toString
+      constants.emptyString.toString
   }
 
 }

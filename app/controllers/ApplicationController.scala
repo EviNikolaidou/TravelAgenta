@@ -4,7 +4,7 @@ import javax.inject._
 import play.api.mvc._
 
 @Singleton
-class application @Inject()
+class ApplicationController @Inject()
   (cc: ControllerComponents, authAction: AuthenticationAction) extends AbstractController(cc) {
 
   def index: Action[AnyContent] = authAction {

@@ -1,21 +1,11 @@
 package controllers
 
 import akka.stream.Materializer
-import authentication.AuthenticatedAction
+import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.AnyContent
-import services.MongoServices
-import reactivemongo.bson.{BSONDocument, BSONObjectID}
+import play.api.mvc.{Action, AnyContent}
 
 import scala.concurrent.Future
-import helpers.Constants
-import javax.inject.Inject
-import models.Recipe
-import play.api.mvc.{Action, Controller}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.Json
-import helpers.JsonFormats._
-import reactivemongo.play.json._
 
 class Destination @Inject()
 (val messagesApi: MessagesApi, val materializer: Materializer, val mongoServices: MongoServices) extends Controller
