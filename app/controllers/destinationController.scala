@@ -1,13 +1,16 @@
 package controllers
 
+import java.awt.Desktop.Action
+
 import akka.stream.Materializer
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
+import helpers.Constants
 
 import scala.concurrent.Future
 
-class Destination @Inject()
+class destinationController @Inject()
 (val messagesApi: MessagesApi, val materializer: Materializer, val mongoServices: MongoServices) extends Controller
   with I18nSupport {
 
@@ -37,7 +40,7 @@ class Destination @Inject()
       }, { destination =>
         mongoServices.getCollection(Constants.Destination.toString).flatMap(_.insert(destination))
           .map(_ =>
-            Redirect(routes.application.index())
+            Redirect(routes.ApplicationController.index())
           )
       }
     )

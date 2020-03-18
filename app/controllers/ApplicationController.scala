@@ -2,10 +2,11 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
+import authentication.authRequest
 
 @Singleton
 class ApplicationController @Inject()
-  (cc: ControllerComponents, authAction: AuthenticationAction) extends AbstractController(cc) {
+  (cc: ControllerComponents, authAction: authRequest) extends AbstractController(cc) {
 
   def index: Action[AnyContent] = authAction {
     Ok(views.html.index("Your new application is ready."))

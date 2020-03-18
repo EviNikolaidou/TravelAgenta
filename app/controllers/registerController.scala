@@ -12,7 +12,7 @@ class registerController @Inject()
 (val messagesApi: MessagesApi, val materializer: Materializer, val mongoServices: MongoServices)
   extends Controller with I18nSupport {
 
-  def signUp: Action[AnyContent] = Action.async { implicit request =>
+  def register: Action[AnyContent] = Action.async { implicit request =>
     Future{Ok(views.html.register(register.registerForm))}
   }
 
