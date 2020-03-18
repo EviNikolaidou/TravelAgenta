@@ -2,16 +2,18 @@ package models
 
 import play.api.data.Form
 import play.api.data.Forms._
+import helpers.constants
 
-case class DestinationDetails(country: String, date: Date, reason:String)
+
+case class DestinationDetails(country: String, date: Int, reason:String)
 
 object DestinationDetails {
   val destForm = Form(
     mapping(
-      Constants.country.toString -> optional(nonEmptyText),
-      Constants.date.toString -> nonEmptyText,
-      Constants.notes.toString -> nonEmptyText,
+      constants.country.toString -> optional(nonEmptyText),
+      constants.date.toString -> nonEmptyText,
+      constants.notes.toString -> nonEmptyText,
     )(DestinationDetails.apply)(DestinationDetails.unapply)
-    )
+
   )
 }

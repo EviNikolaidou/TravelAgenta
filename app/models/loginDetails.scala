@@ -2,7 +2,7 @@ package models
 
 import play.api.data.Form
 import play.api.data.Forms._
-//import helpers.constants
+import helpers.constants
 
 
 case class loginDetails(username:String, password: String)
@@ -18,14 +18,14 @@ object loginDetails {
   )
 
   def checkCredentials(login: loginDetails): Boolean = {
-    if (login.username == Constants.admin.toString && login.password == Constants.password.toString)
+    if (login.username == constants.admin.toString && login.password == constants.password.toString)
       true
     else
       false
   }
 
   def checkUser(login: String): String = {
-    if (login == Constants.admin.toString)
+    if (login == constants.admin.toString)
       constants.admin.toString
     else
       constants.emptyString.toString

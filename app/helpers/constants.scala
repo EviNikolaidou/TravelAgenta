@@ -1,6 +1,6 @@
 package helpers
 
-object Constants extends Enumeration {
+object constants extends Enumeration {
   val country:Value = Value("Country")
   val reason:Value = Value("Reason of Travel?")
   val notes:Value = Value("Notes")

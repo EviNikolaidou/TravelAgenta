@@ -1,4 +1,5 @@
-package controllers
+package
+controllers
 
 import java.awt.Desktop.Action
 
@@ -6,7 +7,8 @@ import akka.stream.Materializer
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent}
-import helpers.Constants
+import helpers.constants
+import models.DestinationDetails
 
 import scala.concurrent.Future
 
@@ -18,12 +20,12 @@ class destinationController @Inject()
     Future{
       Ok(
         views.html.dest(
-          Destination.destForm.fill(
+          DestinationDetails.destForm.fill(
             Destination(
               Some(BSONObjectID.generate().stringify),
-              Constants.emptyString.toString,
-              Constants.emptyString.toString,
-              request.session.get(Constants.username.toString).getOrElse(Constants.emptyString.toString)
+              constants.emptyString.toString,
+              constants.emptyString.toString,
+              request.session.get(constants.userName.toString).getOrElse(constants.emptyString.toString)
             )
           )
         )
@@ -32,13 +34,13 @@ class destinationController @Inject()
   }
 
   def destSumbit: Action[AnyContent] = Action.async { implicit request =>
-    Destination.destForm.bindFromRequest.fold(
+    DestinationDetails.destForm.bindFromRequest.fold(
       { formWithErrors =>
         Future {
           BadRequest(views.html.dest(formWithErrors))
         }
       }, { destination =>
-        mongoServices.getCollection(Constants.Destination.toString).flatMap(_.insert(destination))
+        mongoServices.getCollection(constants.country.toString).flatMap(_.insert(destination))
           .map(_ =>
             Redirect(routes.ApplicationController.index())
           )
