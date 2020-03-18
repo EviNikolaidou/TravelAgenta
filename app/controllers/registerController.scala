@@ -1,9 +1,12 @@
 package controllers
 
+import java.lang.ModuleLayer.Controller
+
 import akka.stream.Materializer
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, Controller}
+import services.MongoServices
 
 import scala.concurrent.Future
 
@@ -23,7 +26,7 @@ class registerController @Inject()
           BadRequest(views.html.register(formWithErrors))
         }
       }, { signUpDetails =>
-        mongoServices.getCollection(Constants.register.toString).flatMap(_.insert(register))
+        mongoServices.getCollection(constants.register.toString).flatMap(_.insert(register))
           .map(_ =>
             Redirect("/").withSession(request.session + (Constants.username.toString -> register.username))
           )

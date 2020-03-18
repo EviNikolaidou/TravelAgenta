@@ -1,6 +1,6 @@
 package models
 
-import play.api.data.Form
+import play.api.data._
 import play.api.data.Forms._
 import helpers.constants
 
@@ -17,18 +17,21 @@ object loginDetails {
     (loginDetails.apply)(loginDetails.unapply)
   )
 
-  def checkCredentials(login: loginDetails): Boolean = {
-    if (login.username == constants.admin.toString && login.password == constants.password.toString)
+  def checkCredentials(loginDetails: loginDetails): Boolean = {
+    if (loginDetails.username == constants.admin.toString && loginDetails.password == constants.password.toString)
       true
     else
       false
   }
 
-  def checkUser(login: String): String = {
-    if (login == constants.admin.toString)
-      constants.admin.toString
-    else
-      constants.emptyString.toString
-  }
+//  def checkUser(loginDetails: String): String = {
+//    if (loginDetails == constants.admin.toString)
+//      constants.admin.toString
+//    else
+//      constants.emptyString.toString
+//  }
+  val userList: List[loginDetails]= List(loginDetails("admin", "password"))
+
+  def getUsername(username: String):Option[loginDetails] = userList.find(user => user.username == username)
 
 }

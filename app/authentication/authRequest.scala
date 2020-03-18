@@ -3,10 +3,14 @@ package authentication
 import com.google.inject.Inject
 import play.api.mvc._
 import helpers.constants
+import models.loginDetails
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class authRequest[A](val username: String, request: Request[A]) extends WrappedRequest[A](request)
+class authRequest[A](val username: String, request: Request[A]) extends WrappedRequest[A](request) {
+  def apply(result: Result): Action[AnyContent] = ???
+
+}
 
 class authAction @Inject()(val parser: BodyParsers.Default)(implicit val executionContext: ExecutionContext)
   extends ActionBuilder[authRequest, AnyContent] {
