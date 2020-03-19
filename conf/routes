@@ -3,7 +3,7 @@ GET         /index                 controllers.HomeController.index
 GET         /login                 controllers.LoginController.login
 POST        /login                 controllers.LoginController.loginSubmit
 #POST    /logout                     controllers.logoutController.logout
-#GET     /signUp                     controllers.registerController.register
+GET     /signUp                     controllers.registerController.register
 POST        /signUp                controllers.registerController.registerSubmit
 #GET     /destination                controllers.destinationController.Destination
 POST        /destination           controllers.destinationController.destSubmit

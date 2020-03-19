@@ -1,4 +1,7 @@
-package controllers
+package controllers//        collection.flatMap(_.insert(destination))
+//          .map(_ =>
+//            Redirect(routes.HomeController.index())
+//          )
 
 import java.awt.Desktop.Action
 
