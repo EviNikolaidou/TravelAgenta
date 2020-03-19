@@ -10,12 +10,12 @@ case class DestinationDetails(id: String, country: String, date:String, reason:S
 
 object DestinationDetails {
 
-  val destForm: Form[DestinationDetails]
-  mapping(
-      constants.id.toString -> optional(nonEmptyText),
-      constants.country.toString -> nonEmptyText,
-      constants.date.toString -> nonEmptyText,
-      constants.notes.toString -> nonEmptyText,
-    )(DestinationDetails.apply)(DestinationDetails.unapply)
-
+  val destForm: Form[DestinationDetails] = Form(
+    mapping(
+        constants.id.toString -> nonEmptyText,
+        constants.country.toString -> nonEmptyText,
+        constants.date.toString -> nonEmptyText,
+        constants.notes.toString -> nonEmptyText,
+      )(DestinationDetails.apply)(DestinationDetails.unapply)
+  )
 }

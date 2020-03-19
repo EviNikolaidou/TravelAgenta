@@ -5,17 +5,20 @@ import java.awt.Desktop.Action
 import helpers.constants
 import javax.inject.Inject
 import models.registerDetails
+import play.api.mvc
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents}
-import scala.concurrent.Future
+import services.MongoServices
 
-@Singleton
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
 class registerController @Inject()
-(cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
+(cc: ControllerComponents, val mongoServices: MongoServices) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
   //(val messagesApi: MessagesApi, val materialize: Materializer, val mongoServices: MongoServices)
   //  extends Controller with I18nSupport {
 
-  def register: Action[AnyContent] = Action.async { implicit request =>
+  def register: mvc.Action[AnyContent] = Action.async { implicit request =>
     Future {
       Ok(views.html.register(registerDetails.registerForm))
     }
@@ -29,10 +32,9 @@ class registerController @Inject()
         }
       },
       { signUpDetails =>
-        MongoServices.collection(constants.register.toString).flatMap(_.insert(register))
-          .map(_ =>
-            Redirect("/").withSession(request.session + (constants.userName.toString -> registerDetails.userName))
-          );
+        mongoServices.createLoginDetails(signUpDetails).map(result =>
+          Redirect("/").withSession(request.session + (constants.userName.toString -> signUpDetails.username))
+        )
 
       }
     )
