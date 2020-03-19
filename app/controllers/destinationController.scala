@@ -3,18 +3,17 @@ package controllers
 import java.awt.Desktop.Action
 
 import akka.stream.Materializer
-import authentication.authAction
+import authentication.authRequest
 import helpers.constants
 import javax.inject.Inject
 import models.{DestinationDetails, registerDetails}
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
-import play.modules.reactivemongo.ReactiveMongoApi
+import play.api.mvc.{AbstractController, AnyContent, ControllerComponents}
 import reactivemongo.api.bson.BSONObjectID
 import reactivemongo.play.json._
 import collection._
 import play.api.libs.json.Json
-import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
+import play.modules.reactivemongo.{MongoController, ReactiveMongoApi}
 import reactivemongo.play.json.collection.JSONCollection
 import reactivemongo.api.Cursor
 import reactivemongo.core.actors.AuthRequest
@@ -28,6 +27,9 @@ class destinationController @Inject()(messagesApi: MessagesApi, val materialize:
   implicit def ec: ExecutionContext = components.executionContext
 
   def collection: Future[JSONCollection] = database.map(_.collection[JSONCollection]("persons"))
+
+
+
   def findByName(lastName: String): Action[AnyContent] = Action.async {
     val cursor: Future[Cursor[registerDetails]] = collection.map {
       _.find(Json.obj("lName" -> lastName)).

@@ -7,12 +7,9 @@ import models.loginDetails
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class authRequest[A](val username: String, request: Request[A]) extends WrappedRequest[A](request) {
-  def apply(result: Result): Action[AnyContent] = ???
+class authRequest[A](val username: String, request: Request[A]) extends WrappedRequest[A](request)
 
-}
-
-class authAction @Inject()(val parser: BodyParsers.Default)(implicit val executionContext: ExecutionContext)
+class AuthenticationAction @Inject()(val parser: BodyParsers.Default)(implicit val executionContext: ExecutionContext)
   extends ActionBuilder[authRequest, AnyContent] {
 
   override def invokeBlock[A](request: Request[A], block: authRequest[A] => Future[Result]): Future[Result] = {

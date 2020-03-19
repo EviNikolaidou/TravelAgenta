@@ -7,10 +7,8 @@ import scala.concurrent.{ExecutionContext, Future}
 import reactivemongo.play.json._
 import collection._
 import models.registerDetails
-import models.UserJsonFormats._
 import play.api.libs.json.{JsValue, Json}
 import reactivemongo.api.Cursor
-
 import play.modules.reactivemongo.{
   MongoController, ReactiveMongoComponents, ReactiveMongoApi
 }

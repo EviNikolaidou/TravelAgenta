@@ -1,6 +1,6 @@
 package models
 
-import play.api.data._
+import play.api.data.Form
 import play.api.data.Forms._
 import helpers.constants
 
@@ -9,7 +9,7 @@ case class loginDetails(username:String, password: String)
 
 object loginDetails {
 
-  val loginForm - Form(
+  val loginForm: Form[loginDetails](
     mapping (
       constants.userName.toString -> nonEmptyText,
       constants.password.toString -> nonEmptyText
