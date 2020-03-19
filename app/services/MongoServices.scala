@@ -1,25 +1,23 @@
 
 package services
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
-import reactivemongo.play.json.collection.JSONCollection
-
-import scala.concurrent.{ExecutionContext, Future}
-import reactivemongo.play.json._
-import collection._
-import models.{DestinationDetails, registerDetails}
 import helpers.jsonFormats._
-import play.api.libs.json.{JsValue, Json}
+import javax.inject.Inject
+import models.registerDetails
+import play.api.libs.json.Json
+import play.modules.reactivemongo.{ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.Cursor
-import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
 import reactivemongo.api.commands.WriteResult
+import reactivemongo.play.json._
+import reactivemongo.play.json.collection.{JSONCollection, _}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class MongoServices @Inject()(
                               val reactiveMongoApi: ReactiveMongoApi
                             ) extends ReactiveMongoComponents {
+
 
   def collection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("persons"))
 

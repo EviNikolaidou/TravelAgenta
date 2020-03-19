@@ -3,20 +3,23 @@ package controllers
 import javax.inject.Inject
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 import reactivemongo.play.json.collection.JSONCollection
+
 import scala.concurrent.{ExecutionContext, Future}
 import reactivemongo.play.json._
 import collection._
 import models.registerDetails
 import play.api.libs.json.{JsValue, Json}
 import reactivemongo.api.Cursor
-import play.modules.reactivemongo.{
-  MongoController, ReactiveMongoComponents, ReactiveMongoApi
-}
+import helpers.jsonFormats.{registerFormat}
+import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
+import views.html.register
+
+
 
 class ApplicationController @Inject()(
-                                                    components: ControllerComponents,
-                                                    val reactiveMongoApi: ReactiveMongoApi
-                                                  ) extends AbstractController(components)
+                                      components: ControllerComponents,
+                                      val reactiveMongoApi: ReactiveMongoApi
+                                    ) extends AbstractController(components)
   with MongoController with ReactiveMongoComponents {
 
   implicit def ec: ExecutionContext = components.executionContext
@@ -25,7 +28,7 @@ class ApplicationController @Inject()(
 
   def create: Action[AnyContent] = Action.async {
     val user = registerDetails("John", "Smith", "jsmith", "password")
-    val futureResult = collection.flatMap(_.insert.one(user))
+    val futureResult = collection.flatMap(_.insert.one(registerFormat))
     futureResult.map(_ => Ok("User inserted"))
   }
 

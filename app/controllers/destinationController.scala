@@ -3,7 +3,6 @@ package controllers
 import java.awt.Desktop.Action
 
 import akka.stream.Materializer
-import authentication.authRequest
 import helpers.constants
 import javax.inject.Inject
 import models.{DestinationDetails, registerDetails}
@@ -17,7 +16,6 @@ import play.modules.reactivemongo.{MongoController, ReactiveMongoApi}
 import reactivemongo.play.json.collection.JSONCollection
 import reactivemongo.api.Cursor
 import reactivemongo.core.actors.AuthRequest
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class destinationController @Inject()(messagesApi: MessagesApi, val materialize: Materializer,
@@ -27,7 +25,6 @@ class destinationController @Inject()(messagesApi: MessagesApi, val materialize:
   implicit def ec: ExecutionContext = components.executionContext
 
   def collection: Future[JSONCollection] = database.map(_.collection[JSONCollection]("persons"))
-
 
 
   def findByName(lastName: String): Action[AnyContent] = Action.async {
@@ -55,14 +52,14 @@ class destinationController @Inject()(messagesApi: MessagesApi, val materialize:
       Ok(
         views.html.dest(
           DestinationDetails.destForm.fill(
-            Destination(
+            DestinationDetails(
               Some(BSONObjectID.generate().stringify),
               constants.emptyString.toString,
               constants.emptyString.toString,
               request.session.get(constants.userName.toString).getOrElse(constants.emptyString.toString)
-            )
           )
         )
+      )
       )
     }
   }
