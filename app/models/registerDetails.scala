@@ -6,8 +6,7 @@ import helpers._
 import play.api.libs.json.OFormat
 
 
-
-case class registerDetails(fname:String, lname:String, val username:String, password: String)
+case class registerDetails(fname:String, lname:String, username:String, password: String)
 
 object registerDetails {
 

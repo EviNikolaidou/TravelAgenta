@@ -1,53 +1,66 @@
 
 package services
 
+import helpers.JsonFormats._
+import helpers.constants
 import javax.inject.Inject
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
+import models.{loginDetails, registerDetails}
+import play.api.libs.json.Json
+import play.modules.reactivemongo.{ReactiveMongoApi, ReactiveMongoComponents}
+import reactivemongo.play.json._
 import reactivemongo.play.json.collection.JSONCollection
 
-import scala.concurrent.{ExecutionContext, Future}
-import reactivemongo.play.json._
-import collection._
-import models.{DestinationDetails, registerDetails}
-import play.api.libs.json.{JsValue, Json}
-import reactivemongo.api.Cursor
-import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
-import reactivemongo.api.commands.WriteResult
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import helpers.JsonFormats._
+import scala.concurrent.Future
 
 class MongoServices @Inject()(
-                              val reactiveMongoApi: ReactiveMongoApi
-                            ) extends ReactiveMongoComponents {
+                              val reactiveMongoApi: ReactiveMongoApi)
+                               extends ReactiveMongoComponents {
 
-  def personsCollection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("persons"))
-  def destinationCollection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("destinations"))
-  def loginCollection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("destinations"))
-
-  def createUser(user: registerDetails): Future[WriteResult] = {
-    personsCollection.flatMap(_.insert.one(user))
+  def getCollection(collectionName: String): Future[JSONCollection] = {
+    database.map(_.collection[JSONCollection](collectionName))
   }
 
-  def createDestinationDetails(dest: DestinationDetails): Future[WriteResult] = {
-    destinationCollection.flatMap(_.insert.one(dest))
-  }
-
-  def createLoginDetails(loginDetails: registerDetails): Future[WriteResult] = {
-    destinationCollection.flatMap(_.insert.one(loginDetails))
-  }
-
-  def findAll(): Future[List[registerDetails]] = {
-    personsCollection.map {
-      _.find(Json.obj())
-        .sort(Json.obj("created" -> -1))
-        .cursor[registerDetails]()
-    }.flatMap(
-      _.collect[List](
-        -1,
-        Cursor.FailOnError[List[registerDetails]]()
+  def validUser(loginDetails: loginDetails) = {
+    getCollection(constants.loginDetails.toString).map {
+      _.find(
+        Json.obj(
+          constants.userName.toString -> loginDetails.username,
+          constants.password.toString -> loginDetails.password
+        )
       )
-    )
+        .cursor[registerDetails]
+    }.flatMap(_.collect[List]()).map(list => list.length == 1)
   }
+
+//  def collection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("user"))
+//
+//  //def destinationCollection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("destinations"))
+//
+//  def loginCollection: Future[JSONCollection] = reactiveMongoApi.database.map(_.collection[JSONCollection]("destinations"))
+//
+//  def createUser(user: registerDetails): Future[WriteResult] = {
+//    collection.flatMap(_.insert.one(loginDetails))
+//  }
+
+//  def createDestinationDetails(dest: DestinationDetails): Future[WriteResult] = {
+//    destinationCollection.flatMap(_.insert.one(dest))
+//  }
+
+//  def createLoginDetails(loginDetails: registerDetails): Future[WriteResult] = {
+//    destinationCollection.flatMap(_.insert.one(loginDetails))
+//  }
+
+//  def findAll(): Future[List[registerDetails]] = {
+//    userCollection.map {
+//      _.find(Json.obj())
+//        .sort(Json.obj("created" -> -1))
+//        .cursor[registerDetails]()
+//    }.flatMap(
+//      _.collect[List](
+//        -1,
+//        Cursor.FailOnError[List[registerDetails]]()
+//      )
+//    )
+//  }
 
 }

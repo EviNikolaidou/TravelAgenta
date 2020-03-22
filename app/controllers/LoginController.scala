@@ -5,7 +5,8 @@ import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponent
 import models.loginDetails
 
 @Singleton
-class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
+class LoginController @Inject()(cc: ControllerComponents)
+  extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
   def login(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.login(loginDetails.loginForm))

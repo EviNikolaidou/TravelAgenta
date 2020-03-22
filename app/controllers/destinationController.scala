@@ -60,24 +60,24 @@ class destinationController @Inject()(components: ControllerComponents, val mong
 //    }
 //  }
 
-  def destSubmit: Action[AnyContent] = Action.async { implicit request =>
-    DestinationDetails.destForm.bindFromRequest.fold(
-      { formWithErrors =>
-        Future {
-          BadRequest(views.html.dest(formWithErrors))
-        }
-      }, { destination =>
-//        collection.flatMap(_.insert(destination))
-//          .map(_ =>
-//            Redirect(routes.HomeController.index())
-//          )
-        mongoServices.createDestinationDetails(destination).map( result =>
-          Redirect(routes.HomeController.index())
-        )
-
-      }
-    )
-  }
+//  def destSubmit: Action[AnyContent] = Action.async { implicit request =>
+//    DestinationDetails.destForm.bindFromRequest.fold(
+//      { formWithErrors =>
+//        Future {
+//          BadRequest(views.html.dest(formWithErrors))
+//        }
+//      }, { destination =>
+////        collection.flatMap(_.insert(destination))
+////          .map(_ =>
+////            Redirect(routes.HomeController.index())
+////          )
+//        mongoServices.createDestinationDetails(destination).map( result =>
+//          Redirect(routes.HomeController.index())
+//        )
+//
+//      }
+//    )
+//  }
 }
 
 
