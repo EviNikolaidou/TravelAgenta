@@ -1,26 +1,26 @@
-package controllers
-
-import akka.stream.Materializer
-import helpers.constants
-import javax.inject.Inject
-import models.{DestinationDetails, registerDetails}
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
-import reactivemongo.api.bson.BSONObjectID
-import reactivemongo.play.json._
-import collection._
-import play.api.libs.json.Json
-import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
-import reactivemongo.play.json.collection.JSONCollection
-import reactivemongo.api.Cursor
-import reactivemongo.core.actors.AuthRequest
-
-import scala.concurrent.{ExecutionContext, Future}
-import helpers.JsonFormats._
-import services.MongoServices
-import ExecutionContext.Implicits.global
-
-class destinationController @Inject()(components: ControllerComponents, val mongoServices: MongoServices) extends AbstractController(components) with play.api.i18n.I18nSupport{
+//package controllers
+//
+//import akka.stream.Materializer
+//import helpers.constants
+//import javax.inject.Inject
+//import models.{Destination, registerDetails}
+//import play.api.i18n.{I18nSupport, MessagesApi}
+//import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
+//import reactivemongo.api.bson.BSONObjectID
+//import reactivemongo.play.json._
+//import collection._
+//import play.api.libs.json.Json
+//import play.modules.reactivemongo.{MongoController, ReactiveMongoApi, ReactiveMongoComponents}
+//import reactivemongo.play.json.collection.JSONCollection
+//import reactivemongo.api.Cursor
+//import reactivemongo.core.actors.AuthRequest
+//
+//import scala.concurrent.{ExecutionContext, Future}
+//import helpers.JsonFormats._
+//import services.MongoServices
+//import ExecutionContext.Implicits.global
+//
+//class destinationController @Inject()(components: ControllerComponents, val mongoServices: MongoServices) extends AbstractController(components) with play.api.i18n.I18nSupport{
 
 
 //  def findByName(lastName: String): Action[AnyContent] = Action.async {
@@ -78,6 +78,6 @@ class destinationController @Inject()(components: ControllerComponents, val mong
 //      }
 //    )
 //  }
-}
+//}
 
 

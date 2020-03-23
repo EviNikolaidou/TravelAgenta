@@ -4,6 +4,8 @@ import play.api.data.Form
 import play.api.data.Forms._
 import helpers._
 
+import scala.collection.mutable.ListBuffer
+
 
 case class loginDetails(username:String, password: String)
 
@@ -17,23 +19,21 @@ object loginDetails {
     ) (loginDetails.apply)(loginDetails.unapply)
   )
 
+  var userList: ListBuffer[loginDetails] = ListBuffer(loginDetails("admin", "password"))
 
-  def checkCredentials(loginDetails: loginDetails): Boolean = {
-    if (loginDetails.username == constants.admin.toString && loginDetails.password == constants.password.toString)
-      true
-    else
-      false
-  }
+  def checkCredentials(userDetails: loginDetails): Boolean = userList.contains(userDetails)
 
-//  def checkUser(loginDetails: String): String = {
-//    if (loginDetails == constants.admin.toString)
-//      constants.admin.toString
-//    else
-//      constants.emptyString.toString
-//  }
-  val userList: List[loginDetails]= List(loginDetails("admin", "password"))
+  def getUsername(username: String): Option[loginDetails] = userList.find(user => user.username == username)
 
-  def getUsername(username: String):Option[loginDetails] = userList.find(user => user.username == username)
+
+
+  //  def checkUser(loginDetails: String): String = {
+  //    if (loginDetails == constants.admin.toString)
+  //      constants.admin.toString
+  //    else
+  //      constants.emptyString.toString
+  //  }
+
 
 
 }

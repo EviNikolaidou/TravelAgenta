@@ -18,6 +18,7 @@ object constants extends Enumeration {
   val created: Value = Value("created")
   val loginDetails: Value = Value("loginDetails")
   val register: Value = Value("register")
+  val passwordcheck: Value = Value("Password Check")
 
 
 

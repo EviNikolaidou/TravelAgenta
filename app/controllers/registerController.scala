@@ -2,44 +2,31 @@ package controllers
 
 
 import helpers.constants
-import javax.inject.Inject
-import models.{loginDetails, registerDetails}
-import play.api.mvc
-import play.api.mvc.{AbstractController, AnyContent, ControllerComponents}
-import services.MongoServices
+import javax.inject.{Inject, Singleton}
+import models.loginDetails
+import models.registerDetails
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Request}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+@Singleton
+class registerController @Inject() (cc: ControllerComponents) extends AbstractController(cc) with play.api.i18n.I18nSupport {
 
-class registerController @Inject()
-(cc: ControllerComponents, val mongoServices: MongoServices) extends AbstractController(cc) with play.api.i18n.I18nSupport {
-
-  def register: mvc.Action[AnyContent] = Action.async { implicit request =>
-    Future {
-      Ok(views.html.register(registerDetails.registerForm))
-    }
+  def register(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.register(registerDetails.registerForm))
   }
 
-  def registerSubmit = Action.async { implicit request =>
-    registerDetails.registerForm.bindFromRequest.fold(
-      { formWithErrors =>
-        Future {
-          BadRequest(views.html.register(formWithErrors))
-        }
-      },{ Register =>
-        mongoServices.collection(loginDetails).map(result =>
-            Redirect("/").withSession(request.session + (constants.userName.toString -> Register.username))
-          )
-
-//      { signUpDetails =>
-//        mongoServices.createLoginDetails(signUpDetails).map(result =>
-//          Redirect("/").withSession(request.session + (constants.userName.toString -> registerDetails.userName))
-//        )
-
+  def registerSubmit(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+    registerDetails.registerForm.bindFromRequest.fold({ formWithErrors =>
+      BadRequest(views.html.register(formWithErrors))
+    }, { signUpDetails =>
+      if (registerDetails.PasswordValidation(signUpDetails) && registerDetails.UserValidation(signUpDetails)) {
+        registerDetails.addUser(signUpDetails.username, signUpDetails.passwordcheck)
+        Redirect(routes.HomeController.index()).withSession(request.session + ("username" -> signUpDetails.username))
+      } else if (registerDetails.UserValidation(signUpDetails)) {
+        BadRequest("Passwords don't match")
+      } else {
+        BadRequest("Account already exist")
       }
-    )
-
+    })
   }
+
 }
-
-
